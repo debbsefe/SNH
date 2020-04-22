@@ -59,4 +59,6 @@ function save_user($userObject){
     file_put_contents("db/users/". $userObject['email'] . ".json", json_encode($userObject));
 }
 
-
+function save_appointment($appointmentObject){
+    file_put_contents("db/appointments/". $appointmentObject['department'] . ".json", json_encode($appointmentObject));
+}

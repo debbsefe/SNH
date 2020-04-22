@@ -44,7 +44,7 @@ if($errorCount > 0){
          file_put_contents("db/tokens/". $email . ".json", json_encode(['token'=>$token]));
         
 
-         send_mail($subject,$message,$email);
+         mail($subject,$message,$email);
 
          die();
 
