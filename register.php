@@ -99,14 +99,14 @@ if(!isset($_GET['adminAuth'])) {
                     <option value="">Select One</option>
                     <option 
                     <?php              
-                        if(isset($_SESSION['role']) && $_SESSION['role'] == 'Medical Team (MT)'){
+                        if(isset($_SESSION['role']) && $_SESSION['designation'] == 'Medical Team (MT)'){
                             echo "selected";                                                           
                         }                
                     ?>
                     >Medical Team (MT)</option>
                     <option 
                     <?php              
-                        if(isset($_SESSION['role']) && $_SESSION['role'] == 'Patient'){
+                        if(isset($_SESSION['role']) && $_SESSION['designation'] == 'Patient'){
                             echo "selected";                                                           
                         }                
                     ?>

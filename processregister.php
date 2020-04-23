@@ -9,8 +9,6 @@ $errors = array();
 $first_name = $_POST['first_name'];
 $last_name = $_POST['last_name'];
 $email = $_POST['email'];
-
-//TODO: VALIDATE FOR THESE IN ERROR ARRAY
 $password = $_POST['password'];
 $gender = $_POST['gender'];
 $designation = $_POST['designation'];
@@ -66,6 +64,19 @@ else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $_SESSION['email'] = $email;
 }
 
+//CHECK PASSWORD
+if ($password == "") {
+    array_push($errors, "Password  cannot be empty");
+  } 
+
+//CHECK GENDER
+if ($gender == "") {
+    array_push($errors, "Gender cannot be empty");
+  } 
+//CHECK DESIGNATION
+if ($designation == "") {
+    array_push($errors, "Designation cannot be empty");
+  } 
 
 //Store error in a list
 $errors_output = "<ul>";

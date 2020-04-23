@@ -46,10 +46,8 @@ function find_user($email = ""){
             $userString = file_get_contents("db/users/".$currentUser);
             $userObject = json_decode($userString);
                        
-            return $userObject;
-          
-        }        
-        
+            return $userObject;     
+        }               
     }
 
     return false;
@@ -63,21 +61,70 @@ function save_appointment($appointmentObject){
     file_put_contents("db/appointments/". $appointmentObject['id'] . $appointmentObject['department'] . ".json", json_encode($appointmentObject));
 }
 
-function find_appointment(){
-    //$allAppointments = scandir("db/appointments/"); //return @array (2 filled)
+function get_appointments($department){
     $tbody = '';
-    $appointments = file_get_contents("db/appointments/1Cardio.json");
-    $decodeappoint = json_decode($appointments);
-    foreach($decodeappoint as $decode){
-        $tbody .= "
+    $rowNumber = 0;
+    $allAppointments = scandir('db/appointments/');
+    $countAllAppoints = count($allAppointments);
+    for ($i = 2; $i < $countAllAppoints; $i++){
+
+        $appointment = json_decode(file_get_contents('db/appointments/' . $allAppointments[$i]));
+        if ($appointment->department == $department) {
+            $rowNumber++;
+            $tbody .= "
              <tr>
-                <td>$decode->appointmentDate</td>
-                <td>$decode->appointmentTime</td>
-                <td>$decode->natureAppointment</td>
-                <td>$decode->initialComplaint</td>
-                <td>$decode->fullName</td>
+                <td>$rowNumber</td>
+                <td>$appointment->fullName</td>
+                <td>$appointment->appointmentDate</td>
+                <td>$appointment->appointmentTime</td>
+                <td>$appointment->natureAppointment</td>
+                <td>$appointment->initialComplaint</td>
             </tr>
             ";
+        }
+    }
+    if (!empty($tbody)) {
         return $tbody;
     }
+}
+
+function view_staffs(){
+    $tbody = '';
+    $rowNumber = 0;
+    $allStaffs = scandir('db/users/');
+    $countAllStaffs = count($allStaffs);
+    for($i = 2; $i < $countAllStaffs; $i++){
+        $staffs = json_decode(file_get_contents('db/users/' . $allStaffs[$i]));
+        if ($staffs->designation == 'Medical Team (MT)') {
+            $rowNumber++;
+            $tbody .= "
+             <tr>
+                <td>$rowNumber</td>
+                <td>$staffs->first_name  $staffs->last_name </td>
+                <td>$staffs->department</td>
+            </tr>
+            ";
+        }
+    }
+    return $tbody;
+}
+
+function view_patients(){
+    $tbody = '';
+    $rowNumber = 0;
+    $allPatients = scandir('db/users/');
+    $countAllPatients = count($allPatients);
+    for($i = 2; $i < $countAllPatients; $i++){
+        $patients = json_decode(file_get_contents('db/users/' . $allPatients[$i]));
+        if ($patients->designation == 'Patient') {
+            $rowNumber++;
+            $tbody .= "
+             <tr>
+                <td>$rowNumber</td>
+                <td>$patients->first_name  $patients->last_name </td>
+            </tr>
+            ";
+        }
+    }
+    return $tbody;
 }

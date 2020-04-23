@@ -61,7 +61,7 @@ if(!empty($errors)){
     $_SESSION['error'] = $errors_output;
     header("Location: bookappointments.php");
 
-}else{
+} else{
     
     $allAppointments = scandir("db/appointments");
     $countAllAppointments = count($allAppointments);
@@ -82,7 +82,5 @@ if(!empty($errors)){
     save_appointment($appointmentObject);
 
     $_SESSION["message"] = "Appointment Booked Successfully";
-    header("Location: dashboard.php");
+    header("Location: bookappointments.php");
 }
-
-//TODO CLEAR FORM AFTER SUBMIT

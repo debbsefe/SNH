@@ -1,7 +1,5 @@
 <?php 
 
-//TODO: Implement token functions
-
 function generate_token(){
     $token = ""; 
 

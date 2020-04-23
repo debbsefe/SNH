@@ -6,25 +6,20 @@ if(!isset($_SESSION['loggedIn'])){
     // redirect to dashboard
     redirect_to("login.php");
 } 
-$tbody = view_staffs();
+$tbody = view_patients();
 ?>
-
 <div class="container">
-    <h1>View All staffs</h1>
-
-    <table class="table table-hover">
+<table class="table table-hover">
     
     <thead>
       <tr>
         <th scope="col">S/N</th>
-        <th scope="col">Staff Name</th>
-        <th scope="col">Department</th>
+        <th scope="col">Patient Name</th>
       </tr>
     </thead>
     <tbody>
     <?php echo $tbody; ?>
     </tbody>
 </table>
-
 </div>
 <?php include_once('lib/footer.php'); ?>

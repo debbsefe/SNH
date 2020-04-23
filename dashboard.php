@@ -19,8 +19,8 @@ Welcome, <?php echo $_SESSION['fullname'] ?>, You are logged in as (<?php echo $
 <p>Date of Last Login : <?php echo $_SESSION['lastLogin'] ?></p>
 
 <a href="register.php?adminAuth"><button class="btn btn-sm btn-primary">Add new User</button></a>
-<a href="staff.php"><button class="btn btn-sm btn-primary">View all Staffs</button></a>
-<a href="patient.php"><button class="btn btn-sm btn-primary">View all patients</button></a>
+<a href="viewstaffs.php"><button class="btn btn-sm btn-primary">View all Staffs</button></a>
+<a href="viewpatients.php"><button class="btn btn-sm btn-primary">View all patients</button></a>
 
 <?php }else if($_SESSION["role"] == "Medical Team (MT)"){ ?>
 
