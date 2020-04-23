@@ -1,4 +1,9 @@
 <?php include_once('lib/header.php'); 
+
+if(!isset($_SESSION['loggedIn'])){
+    // redirect to dashboard
+    header("Location: login.php");
+}
 require_once('functions/alert.php');
 ?>
 
@@ -44,7 +49,7 @@ require_once('functions/alert.php');
                 type="text" id="natureAppointment" name="natureAppointment" class="form-control" value="">
             </p>
             <p>
-                <label>Intial Complaint</label>
+                <label>Initial Complaint</label>
                 <input 
                 <?php              
                     if(isset($_SESSION['initialComplaint'])){

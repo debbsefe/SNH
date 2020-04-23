@@ -62,6 +62,7 @@ if(!empty($errors)){
     header("Location: bookappointments.php");
 
 }else{
+    
     $allAppointments = scandir("db/appointments");
     $countAllAppointments = count($allAppointments);
 
@@ -74,11 +75,14 @@ if(!empty($errors)){
         'natureAppointment'=>$natureAppointment,
         'initialComplaint'=>$initialComplaint,
         'department'=>$department,
+        'fullName' => $_SESSION['fullname'],
     ];
         
     //save in the database;
     save_appointment($appointmentObject);
 
     $_SESSION["message"] = "Appointment Booked Successfully";
-    header("Location: bookappointments.php");
+    header("Location: dashboard.php");
 }
+
+//TODO CLEAR FORM AFTER SUBMIT

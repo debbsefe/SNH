@@ -60,5 +60,24 @@ function save_user($userObject){
 }
 
 function save_appointment($appointmentObject){
-    file_put_contents("db/appointments/". $appointmentObject['department'] . ".json", json_encode($appointmentObject));
+    file_put_contents("db/appointments/". $appointmentObject['id'] . $appointmentObject['department'] . ".json", json_encode($appointmentObject));
+}
+
+function find_appointment(){
+    //$allAppointments = scandir("db/appointments/"); //return @array (2 filled)
+    $tbody = '';
+    $appointments = file_get_contents("db/appointments/1Cardio.json");
+    $decodeappoint = json_decode($appointments);
+    foreach($decodeappoint as $decode){
+        $tbody .= "
+             <tr>
+                <td>$decode->appointmentDate</td>
+                <td>$decode->appointmentTime</td>
+                <td>$decode->natureAppointment</td>
+                <td>$decode->initialComplaint</td>
+                <td>$decode->fullName</td>
+            </tr>
+            ";
+        return $tbody;
+    }
 }

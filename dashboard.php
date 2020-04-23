@@ -28,7 +28,7 @@ Welcome, <?php echo $_SESSION['fullname'] ?>, You are logged in as (<?php echo $
 <p>Department : <?php echo $_SESSION['department'] ?></p>
 <p>Date of registration : <?php echo  $_SESSION['registerDate'] ?></p>
 <p>Date of Last Login : <?php echo $_SESSION['lastLogin'] ?></p>
-<a href="appointment.php"><button class="btn btn-sm btn-primary">View all Appointments</button></a>
+<a href="viewappointments.php"><button class="btn btn-sm btn-primary">View all Appointments</button></a>
 
 <?php }else{?>
     <p>Access Level : <?php echo $_SESSION['role'] ?></p>
