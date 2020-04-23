@@ -47,7 +47,7 @@ if(strlen($initialComplaint) < 3) {
 if($department == "") {
     array_push($errors, "Department cannot be blank");
 }else{
-    $_SESSION['department'] = $department;
+    $_SESSION['dept'] = $department;
 }
 
 //Insert into database
@@ -80,7 +80,11 @@ if(!empty($errors)){
         
     //save in the database;
     save_appointment($appointmentObject);
-
+    unset($_SESSION['appointmentDate']);
+    unset($_SESSION['appointmentTime']);
+    unset($_SESSION['natureAppointment']);
+    unset($_SESSION['initialComplaint']);
+    unset($_SESSION['dept']);
     $_SESSION["message"] = "Appointment Booked Successfully";
     header("Location: bookappointments.php");
 }

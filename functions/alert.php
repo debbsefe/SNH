@@ -13,8 +13,8 @@ function print_alert(){
                     "</div>";            
             if (!isset($_SESSION['loggedIn'])) {
                 session_destroy();
-            } else{
-                session_unset();
+            } else {
+                unset($_SESSION[$types[$i]]);
             }
         
         }

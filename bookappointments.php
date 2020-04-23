@@ -64,35 +64,35 @@ require_once('functions/alert.php');
                     <option value="">Select One</option>
                     <option
                     <?php              
-                        if(isset($_SESSION['department']) && $_SESSION['department'] == 'Cardio'){
+                        if(isset($_SESSION['dept']) && $_SESSION['dept'] == 'Cardio'){
                             echo "selected";                                                           
                         }                
                     ?>
                     >Cardio</option>
                     <option
                     <?php              
-                        if(isset($_SESSION['department']) && $_SESSION['department'] == 'Surgery'){
+                        if(isset($_SESSION['dept']) && $_SESSION['dept'] == 'Surgery'){
                             echo "selected";                                                           
                         }                
                     ?>
                     >Surgery</option>
                     <option
                     <?php              
-                        if(isset($_SESSION['department']) && $_SESSION['department'] == 'Paediatrics'){
+                        if(isset($_SESSION['dept']) && $_SESSION['dept'] == 'Paediatrics'){
                             echo "selected";                                                           
                         }                
                     ?>
                     >Paediatrics</option>
                     <option
                     <?php              
-                        if(isset($_SESSION['department']) && $_SESSION['department'] == 'Dentistry'){
+                        if(isset($_SESSION['dept']) && $_SESSION['dept'] == 'Dentistry'){
                             echo "selected";                                                           
                         }                
                     ?>
                     >Dentistry</option>
                     <option
                     <?php              
-                        if(isset($_SESSION['department']) && $_SESSION['department'] == 'Laboratory'){
+                        if(isset($_SESSION['dept']) && $_SESSION['dept'] == 'Laboratory'){
                             echo "selected";                                                           
                         }                
                     ?>
