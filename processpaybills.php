@@ -1,6 +1,6 @@
 <?php include_once('lib/header.php');
 require_once('functions/user.php');
-if(!isset($_SESSION['loggedIn'])){
+if(!isset($_SESSION['loggedIn']) || $_SESSION["role"] != "Patient"){
     // redirect to dashboard
     header("Location: login.php"); 
 }
@@ -10,11 +10,11 @@ $email = $_SESSION['email'];
         
 ?>
 <div class="container">
-    <?php  print_alert(); ?>
+   
         <h2 class="mb-5">Pay your bills here</h2>
         <?php
         $appointments = get_patient_appointment($email);
-        if(count($appointments) < 1 )  { ?>
+        if(count($appointments) < 1)  { ?>
             <p>You currently have not booked any appointment</p>
         <?php }else{ ?>
 
@@ -34,15 +34,14 @@ $email = $_SESSION['email'];
                 $appointments = get_patient_appointment($email);
                 for ($i = 0; $i < count($appointments); $i++) {  ?>
             <tr>
-                <td><?php echo $i + 1;?></td>
+                <td><?php echo $i++;?></td>
                 <td><?php echo $appointments[$i]->appointmentDate;?></td>
                 <td><?php echo $appointments[$i]->appointmentTime;?></td>
                 <td><?php echo $appointments[$i]->natureAppointment;?></td>
                 <td><?php echo $appointments[$i]->initialComplaint; ?></td>
                 <td><?php echo $appointments[$i]->paymentStatus; ?></td>
-                
-                <td> 
                 <?php if ($appointments[$i]->paymentStatus == 'Not Paid') { ?>
+                <td> 
                     <form>
                     <script type="text/javascript" src="https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
                     <button class="btn btn-sm btn-primary" type="button" onClick="payWithRave()"
@@ -52,18 +51,17 @@ $email = $_SESSION['email'];
                     
                     >Click to pay</button>
                     </form>
-                
-                <?php } ?>
                 </td>
+                <?php } ?>
                 </tr>
                 <?php } ?>
             </tbody>
            
            
             
-        </table> <?php } ?>
+        </table>
                 <a href="bookappointments.php"><button class="btn btn-lg btn-primary">Book an appointment</button></a>
-                
+                <?php } ?>
         
 
     <script>

@@ -76,6 +76,10 @@ if(!empty($errors)){
         'initialComplaint'=>$initialComplaint,
         'department'=>$department,
         'fullName' => $_SESSION['fullname'],
+        'email' => $_SESSION['email'],
+        'paymentStatus' => 'Not Paid',
+        'timeOfPayment' => '',
+        'dateOfPayment' => '',
     ];
         
     //save in the database;
@@ -87,4 +91,5 @@ if(!empty($errors)){
     unset($_SESSION['dept']);
     $_SESSION["message"] = "Appointment Booked Successfully";
     header("Location: bookappointments.php");
+    unset($_SESSION['message']);
 }

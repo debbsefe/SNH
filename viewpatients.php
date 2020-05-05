@@ -2,14 +2,14 @@
 require_once('functions/user.php');
 require_once('functions/redirect.php');
 
-if(!isset($_SESSION['loggedIn'])){
+if(!isset($_SESSION['loggedIn']) || $_SESSION["role"] != "Medical Director"){
     // redirect to dashboard
     redirect_to("login.php");
 } 
 $tbody = view_patients();
 ?>
 <div class="container">
-<table class="table table-hover">
+<table class="table table-striped">
     
     <thead>
       <tr>

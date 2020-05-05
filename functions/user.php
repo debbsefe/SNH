@@ -58,7 +58,7 @@ function save_user($userObject){
 }
 
 function save_appointment($appointmentObject){
-    file_put_contents("db/appointments/". $appointmentObject['id'] . $appointmentObject['department'] . ".json", json_encode($appointmentObject));
+    file_put_contents("db/appointments/". $appointmentObject['id'] . ".json", json_encode($appointmentObject));
 }
 
 function get_appointments($department){
@@ -79,6 +79,7 @@ function get_appointments($department){
                 <td>$appointment->appointmentTime</td>
                 <td>$appointment->natureAppointment</td>
                 <td>$appointment->initialComplaint</td>
+                <td>$appointment->paymentStatus</td>
             </tr>
             ";
         }
@@ -128,3 +129,93 @@ function view_patients(){
     }
     return $tbody;
 }
+
+function generateTxref(){
+    $txref = "SNH";
+    for($i = 0; $i<12; $i++){
+        $txref .= mt_rand(0, 11);
+
+    }
+    return $txref;
+}
+
+function getUserAppointment($email){
+
+    $tbody = '';
+    $rowNumber = 0;
+    $allAppointments = scandir('db/appointments/');
+    $countAllAppoints = count($allAppointments);
+    for ($i = 2; $i < $countAllAppoints; $i++){
+
+        $appointment = json_decode(file_get_contents('db/appointments/' . $allAppointments[$i]));
+        if ($appointment->email == $email) {
+            $rowNumber++;
+            $tbody .= "
+             <tr>
+                <td>$rowNumber</td>
+                <td>$appointment->appointmentDate</td>
+                <td>$appointment->appointmentTime</td>
+                <td>$appointment->natureAppointment</td>
+                <td>$appointment->initialComplaint</td>
+                <td>$appointment->paymentStatus</td>
+            </tr>
+            ";
+        }
+    }
+    if (!empty($tbody)) {
+        return $tbody;
+    }
+
+}
+
+function viewallpayments(){
+
+    $tbody = '';
+    $rowNumber = 0;
+    $allAppointments = scandir('db/appointments/');
+    $countAllAppoints = count($allAppointments);
+    for ($i = 2; $i < $countAllAppoints; $i++){
+
+        $appointment = json_decode(file_get_contents('db/appointments/' . $allAppointments[$i]));
+        if ($appointment->paymentStatus == 'Paid') {
+            $rowNumber++;
+            $tbody .= "
+             <tr>
+                <td>$rowNumber</td>
+                <td>$appointment->fullName</td>
+                <td>$appointment->appointmentDate</td>
+                <td>$appointment->appointmentTime</td>
+                <td>$appointment->natureAppointment</td>
+                <td>$appointment->initialComplaint</td>
+                <td>$appointment->department</td>
+                <td>$appointment->paymentStatus</td>
+                <td>$appointment->timeOfPayment</td>
+                <td>$appointment->dateOfPayment</td>
+            </tr>
+            ";
+        }
+    }
+    if (!empty($tbody)) {
+        return $tbody;
+    }
+
+}
+
+function get_patient_appointment($patient_email) {
+    $allAppointments = [];
+  
+    $appointmentsInDb = scandir("db/appointments");
+    $countAllAppointments = count($appointmentsInDb);
+  
+    for ($counter = 2; $counter < $countAllAppointments; $counter++) {
+      $currentAppointment = $appointmentsInDb[$counter];
+      $currentAppointmentString = file_get_contents("db/appointments/".$currentAppointment);
+      $currentAppointmentObject = json_decode($currentAppointmentString);
+      $patientEmail = $currentAppointmentObject->email;
+      if ($patient_email == $patientEmail) {
+        array_push($allAppointments, $currentAppointmentObject);
+      }
+    }
+    return $allAppointments;
+  }
+//THIS DOES NOT RETURN ANYTHING DESPITE LOADS BEING IN THERE

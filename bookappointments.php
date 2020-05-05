@@ -1,6 +1,6 @@
 <?php include_once('lib/header.php'); 
 
-if(!isset($_SESSION['loggedIn'])){
+if(!isset($_SESSION['loggedIn']) || $_SESSION["role"] != "Patient"){
     // redirect to dashboard
     header("Location: login.php");
 }

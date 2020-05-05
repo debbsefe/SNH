@@ -1,6 +1,6 @@
 <?php include_once('lib/header.php');
 require_once('functions/user.php');
-if(!isset($_SESSION['loggedIn'])){
+if(!isset($_SESSION['loggedIn']) || $_SESSION["role"] != "Patient"){
     // redirect to dashboard
     header("Location: login.php"); 
 }
@@ -10,13 +10,19 @@ $email = $_SESSION['email'];
         
 ?>
 <div class="container">
-    <?php  print_alert(); ?>
+   
         <h2 class="mb-5">Pay your bills here</h2>
+        
         <?php
-        $appointments = get_patient_appointment($email);
-        if(count($appointments) < 1 )  { ?>
-            <p>You currently have not booked any appointment</p>
-        <?php }else{ ?>
+        $rowNumber = 0;
+        $allAppointments = scandir('db/appointments/');
+        $countAllAppoints = count($allAppointments);
+        for ($i = 2; $i < $countAllAppoints; $i++){
+   
+           $appointment = json_decode(file_get_contents('db/appointments/' . $allAppointments[$i]));
+           if ($appointment->email == $email) {
+            $rowNumber++;
+        ?>
 
         <table class="table table-hover">
             <thead>
@@ -30,40 +36,39 @@ $email = $_SESSION['email'];
             </tr>
             </thead>
             <tbody>
-            <?php 
-                $appointments = get_patient_appointment($email);
-                for ($i = 0; $i < count($appointments); $i++) {  ?>
             <tr>
-                <td><?php echo $i + 1;?></td>
-                <td><?php echo $appointments[$i]->appointmentDate;?></td>
-                <td><?php echo $appointments[$i]->appointmentTime;?></td>
-                <td><?php echo $appointments[$i]->natureAppointment;?></td>
-                <td><?php echo $appointments[$i]->initialComplaint; ?></td>
-                <td><?php echo $appointments[$i]->paymentStatus; ?></td>
-                
+                <td><?php echo $rowNumber;?></td>
+                <td><?php echo $appointment->appointmentDate;?></td>
+                <td><?php echo $appointment->appointmentTime;?></td>
+                <td><?php echo $appointment->natureAppointment;?></td>
+                <td><?php echo $appointment->initialComplaint; ?></td>
+                <td><?php echo $appointment->paymentStatus; ?></td>
+                <?php if ($appointment->paymentStatus == 'Not Paid') { ?>
                 <td> 
-                <?php if ($appointments[$i]->paymentStatus == 'Not Paid') { ?>
                     <form>
                     <script type="text/javascript" src="https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
                     <button class="btn btn-sm btn-primary" type="button" onClick="payWithRave()"
                     <?php              
-                      echo "id=" . $appointments[$i]->id;                                                                         
+                      echo "id=" . $appointment->id;                                                                         
                   ?>
                     
                     >Click to pay</button>
                     </form>
-                
-                <?php } ?>
                 </td>
-                </tr>
                 <?php } ?>
+                </tr>
             </tbody>
            
            
             
-        </table> <?php } ?>
+        </table>
+        <?php }else{ ?>
+
+        <p>You have no booked appointment, please click on the button below to book for an appointment and then return here to pay for your bill </p>  
+        <?php } }?>
+      
                 <a href="bookappointments.php"><button class="btn btn-lg btn-primary">Book an appointment</button></a>
-                
+
         
 
     <script>

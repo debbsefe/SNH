@@ -2,7 +2,7 @@
 require_once('functions/user.php');
 require_once('functions/redirect.php');
 
-if(!isset($_SESSION['loggedIn'])){
+if(!isset($_SESSION['loggedIn']) || $_SESSION["role"] != "Medical Director"){
     // redirect to dashboard
     redirect_to("login.php");
 } 
@@ -12,7 +12,7 @@ $tbody = view_staffs();
 <div class="container">
     <h1>View All staffs</h1>
 
-    <table class="table table-hover">
+    <table class="table table-striped">
     
     <thead>
       <tr>
