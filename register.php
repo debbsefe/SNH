@@ -1,6 +1,5 @@
 <?php include_once('lib/header.php');
  require_once('functions/alert.php');
- //error_reporting(E_ALL ^ E_WARNING); 
 
 
 if(!isset($_GET['adminAuth'])) {
@@ -38,15 +37,15 @@ if(!isset($_GET['adminAuth'])) {
                         echo "value=" . $_SESSION['first_name'];                                                             
                     }                
                 ?>
-                type="text" class="form-control" name="first_name" placeholder="First Name" />
+                type="text" class="form-control" name="first_name" placeholder="First Name"/>
             </p>
             <p>
                 <label>Last Name</label><br />
                 <input
                 <?php              
-                    // if(isset($_SESSION['last_name'])){
-                    //     echo "value=" . $_SESSION['last_name'];                                                             
-                    // }                
+                    if(isset($_SESSION['last_name'])){
+                        echo "value=" . $_SESSION['last_name'];                                                             
+                    }                
                 ?>
                 type="text" class="form-control" name="last_name" placeholder="Last Name"  />
             </p>
@@ -71,8 +70,8 @@ if(!isset($_GET['adminAuth'])) {
                 <label>Gender</label><br />
                 <select class="form-control" name="gender" >
                 <?php              
-                    if(isset($_SESSION['department'])){
-                        echo "value=" . $_SESSION['department'];                                                             
+                    if(isset($_SESSION['gender'])){
+                        echo "value=" . $_SESSION['gender'];                                                             
                     }                
                 ?>
                     <option value="">Select One</option>
@@ -100,29 +99,67 @@ if(!isset($_GET['adminAuth'])) {
                     <option value="">Select One</option>
                     <option 
                     <?php              
-                        if(isset($_SESSION['designation']) && $_SESSION['designation'] == 'Medical Team (MT)'){
+                        if(isset($_SESSION['role']) && $_SESSION['designation'] == 'Medical Team (MT)'){
                             echo "selected";                                                           
                         }                
                     ?>
                     >Medical Team (MT)</option>
                     <option 
                     <?php              
-                        if(isset($_SESSION['designation']) && $_SESSION['designation'] == 'Patient'){
+                        if(isset($_SESSION['role']) && $_SESSION['designation'] == 'Patient'){
                             echo "selected";                                                           
                         }                
                     ?>
                     >Patient</option>
+                    <option 
+                    <?php              
+                        if(isset($_SESSION['designation']) && $_SESSION['designation'] == 'Medical Director'){
+                            echo "selected";                                                           
+                        }                
+                    ?>
+                    >Medical Director</option>
                 </select>
             </p>
             <p>
                 <label class="label" for="department">Department</label><br />
-                <input
-                <?php              
-                    if(isset($_SESSION['department'])){
-                        echo "value=" . $_SESSION['department'];                                                             
-                    }                
-                ?>
-                type="text" id="department" class="form-control" name="department" placeholder="Department"  />
+                <select class="form-control" name="department" >
+                
+                    <option value="">Select One</option>
+                    <option 
+                    <?php              
+                        if(isset($_SESSION['department']) && $_SESSION['department'] == 'Cardio'){
+                            echo "selected";                                                           
+                        }                
+                    ?>
+                    >Cardio</option>
+                    <option 
+                    <?php              
+                        if(isset($_SESSION['department']) && $_SESSION['department'] == 'Surgery'){
+                            echo "selected";                                                           
+                        }                
+                    ?>
+                    >Surgery</option>
+                    <option 
+                    <?php              
+                        if(isset($_SESSION['department']) && $_SESSION['department'] == 'Paediatrics'){
+                            echo "selected";                                                           
+                        }                
+                    ?>
+                    >Paediatrics</option>
+                    <option 
+                    <?php              
+                        if(isset($_SESSION['department']) && $_SESSION['department'] == 'Dentistry'){
+                            echo "selected";                                                           
+                        }                
+                    ?>
+                    >Dentistry</option> <option 
+                    <?php              
+                        if(isset($_SESSION['department']) && $_SESSION['department'] == 'Laboratory'){
+                            echo "selected";                                                           
+                        }                
+                    ?>
+                    >Laboratory</option>
+                </select>
             
             </p>
             <p>

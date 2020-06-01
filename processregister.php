@@ -1,116 +1,102 @@
 <?php session_start();
     require_once('functions/user.php');
-//Collecting the data
-
-$errorCount = 0;
+//error array
 
 $errors = array();
 
 //Verifying the data, validation
 
-$first_name = $_POST['first_name'] != "" ? $_POST['first_name'] :  $errorCount++;
-$last_name = $_POST['last_name'] != "" ? $_POST['last_name'] :  $errorCount++;
-$email = $_POST['email'] != "" ? $_POST['email'] :  $errorCount++;
-$password = $_POST['password'] != "" ? $_POST['password'] :  $errorCount++;
-$gender = $_POST['gender'] != "" ? $_POST['gender'] :  $errorCount++;
-$designation = $_POST['designation'] != "" ? $_POST['designation'] :  $errorCount++;
-$department = $_POST['department'] != "" ? $_POST['department'] :  $errorCount++;
+$first_name = $_POST['first_name'];
+$last_name = $_POST['last_name'];
+$email = $_POST['email'];
+$password = $_POST['password'];
+$gender = $_POST['gender'];
+$designation = $_POST['designation'];
+$department = $_POST['department'];
 
 // check name
-
-
 // 1. no number
 if(!ctype_alpha($first_name)) {
     // firstname contains a number 
     array_push($errors,'Your first name must contain a number');
 }
-
 // 2. not less than 2 characters
-if(strlen($first_name) < 2) {
+else if(strlen($first_name) < 2) {
     array_push($errors, "First name cannot be less than 2 characters");
 }
-
 // 3. not blank
-if($first_name == "") {
+else if($first_name == "") {
     array_push($errors, "First name cannot be blank");
+}else{
+    $_SESSION['first_name'] = $first_name;
 }
 
-
 // check lastname
-
 // 1. no number
 if(!ctype_alpha($last_name)) {
     // lastname contains a number 
     array_push($errors, 'Your last name must contain a number');
 }
-
 // 2. not less than 2 characters
-if(strlen($last_name) < 2) {
+else if(strlen($last_name) < 2) {
     array_push($errors, "Last name cannot be less than 2 characters");
 }
-
 // 3. not blank
-if(empty($last_name)){
+else if(empty($last_name)){
     array_push($errors, "Last name cannot be blank");
+}else{
+    $_SESSION['last_name'] = $last_name;
 }
 
 //check email
-
 //1. email must not be empty
 if ($email == "") {
     array_push($errors, "Email must not be empty");
-
   } 
 //2. email must not be less than 5 characters
-if(strlen($email) < 5) {
+else if(strlen($email) < 5) {
     array_push($errors, "Email must not be less than 5 characters");
 }
-
 //3. email must have . and @ in it/valid email
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     array_push($errors, "Invalid email format / email must include @ and .");
-  }
+}else{
+    $_SESSION['email'] = $email;
+}
 
+//CHECK PASSWORD
+if ($password == "") {
+    array_push($errors, "Password  cannot be empty");
+  } 
 
+//CHECK GENDER
+if ($gender == "") {
+    array_push($errors, "Gender cannot be empty");
+  } 
+//CHECK DESIGNATION
+if ($designation == "") {
+    array_push($errors, "Designation cannot be empty");
+  } 
 
+//Store error in a list
 $errors_output = "<ul>";
 foreach($errors as $error) {
     $errors_output .= '
         <li>'.$error.'</li>';
 }
-
 $errors_output .= '</ul>';
 
-$_SESSION['errors_output'] = $errors_output;
-
-
-
-
-
-
-
-$_SESSION['first_name'] = $first_name;
-$_SESSION['last_name'] = $last_name;
-$_SESSION['email'] = $email;
+//FORM INPUT SESSIONS
 $_SESSION['gender'] = $gender;
 $_SESSION['designation'] = $designation;
 $_SESSION['department'] = $department;
 
 
-if($errorCount > 0){
-
-     $session_error = "You have " . $errorCount . " error";
-    
-    if($errorCount > 1) {        
-        $session_error .= "s";
-    }
-
-    $session_error .=   " in your form submission";
-    $_SESSION["error"] = $session_error ;
-
+if(!empty($errors)){
+    $_SESSION['error'] = $errors_output;
     header("Location: register.php");
 
-}else{
+} else{
     $allUsers = scandir("db/users");
     $countAllUsers = count($allUsers);
 
@@ -140,11 +126,9 @@ if($errorCount > 0){
             die();
         }
         
-
     //save in the database;
     save_user($userObject);
 
     $_SESSION["message"] = "Registration Successful, you can now login " . $first_name;
     header("Location: login.php");
 }
-
